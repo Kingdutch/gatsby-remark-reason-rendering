@@ -8,8 +8,8 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "bs-platform": "^7.1.0",
+    "bs-platform": "^7",
     "unist-util-visit": "^2.0.1",
-    "webpack": "^4.41.6"
+    "webpack": "^4"
   }
 }
