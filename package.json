@@ -1,6 +1,6 @@
 {
   "name": "@kingdutch/gatsby-remark-reason-rendering",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Turns Reason code snippets into rendered pages.",
   "main": "src/index.js",
   "type": "commonjs",

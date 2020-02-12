@@ -1,6 +1,7 @@
-const fs = require('fs');
+const fs = require('fs').promises;
+const fsSync = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { exec } = require('child_process');
 const visit = require('unist-util-visit');
 const webpack = require('webpack');
 
@@ -56,74 +57,101 @@ const webpackConfig = {
 const compiler = webpack(webpackConfig);
 
 function ensureDirectory(dir) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
+  if (!fsSync.existsSync(dir)) {
+    fsSync.mkdirSync(dir);
   }
 }
 
-function removeDirectoryRecursive(dir) {
+async function removeDirectoryRecursive(dir) {
   if (path.relative(projectDir, dir).indexOf('..') === 0) {
     throw new Error(`${dir} is outside of project directory ${projectDir}`);
   }
 
-  if (fs.existsSync(dir)) {
-    fs.readdirSync(dir).forEach((file, index) => {
+  if (fsSync.existsSync(dir)) {
+    const files = await fs.readdir(dir);
+    // Use map to loop through them all and turn them into promises.
+    const ops = files.map(async (file, index) => {
       const curPath = path.join(dir, file);
-      if (fs.lstatSync(curPath).isDirectory()) { // recurse
-        removeDirectoryRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
+      if ((await fs.lstat(curPath)).isDirectory()) {
+        await removeDirectoryRecursive(curPath);
       }
+      else {
+        await fs.unlink(curPath);
+      }
+      return Promise.resolve();
     });
-    fs.rmdirSync(dir);
+
+    // Await till all files are recursively removed.
+    await Promise.all(ops);
+    await fs.rmdir(dir);
   }
 }
 
-function compileSnippet(snippet, cb) {
+async function execPromise(command, options) {
+  return new Promise((resolve, reject) => {
+    exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve(stdout, stderr);
+    })
+  })
+}
+
+async function compilerRunPromise() {
+  return new Promise((resolve, reject) => {
+    compiler.run((error, stats) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve(stats);
+    });
+  })
+}
+
+async function compileSnippet(snippet, cb) {
   // Clean up previous attempt.
   // TODO: This should happen at the end but is here for debugging.
-  removeDirectoryRecursive(tmpPath);
+  await removeDirectoryRecursive(tmpPath);
 
   // Prepare our reason code compilation directory.
   ensureDirectory(tmpPath);
-  fs.writeFileSync(bsFile, bsConfig);
-  fs.writeFileSync(tmpFile, snippet);
+  await fs.writeFile(bsFile, bsConfig);
+  await fs.writeFile(tmpFile, snippet);
 
   // Use BSB to compile the code.
-  execSync("bsb -make-world", { cwd: tmpPath });
+  await execPromise("bsb -make-world", { cwd: tmpPath });
 
   // Prepare our embed snippet that will load the compiled Reason code.
-  fs.writeFileSync(path.join(tmpPath, "embed.js"), fs.readFileSync(embedFile))
+  await fs.writeFile(
+    path.join(tmpPath, "embed.js"),
+    await fs.readFile(embedFile)
+  );
 
   // Use webpack to make our snippet ready for embedding.
-  compiler.run((error, stats) => {
-    if (error) {
-      console.error("Encountered error", error);
-      return;
-    }
+  const stats = await compilerRunPromise();
 
-    const info = stats.toJson();
+  const info = stats.toJson();
 
-    if (stats.hasErrors()) {
-      console.error("Errors webpacking the compiled code\n", info.errors);
-    }
+  if (stats.hasErrors()) {
+    console.error("Errors webpacking the compiled code\n", info.errors);
+  }
 
-    if (stats.hasWarnings()) {
-      console.warn("Errors webpacking the compiled code\n", info.warnings);
-    }
+  if (stats.hasWarnings()) {
+    console.warn("Errors webpacking the compiled code\n", info.warnings);
+  }
 
-    cb(
-      fs.readFileSync(
-        path.join(tmpPath, webpackOutFile)
-      ).toString('utf-8')
-    );
-  });
+  const fileContents = await fs.readFile(
+    path.join(tmpPath, webpackOutFile)
+  );
+  return fileContents.toString('utf-8');
+
 }
 
-// TODO: Clean this up to nicer async/await.
 module.exports = ({markdownAST}, pluginOptions) => {
   let codeblocks = [];
-  let snippets = [];
 
   // Plugins can be asynchronous but visit itself is synchronous.
   // Therefore first collect all the code nodes, later return a promise in which
@@ -137,28 +165,26 @@ module.exports = ({markdownAST}, pluginOptions) => {
     codeblocks.push({node, index, parent});
   });
 
-  return new Promise((resolve, reject) => {
-    codeblocks.forEach(({ node, index, parent }) => {
-      // Create a script node the will run our snippet.
-      compileSnippet(node.value.trim(), embedSnippet => {
+  // Create a chain of transforms to handle each node.
+  const tasks = codeblocks.map(async ({ node, index, parent }) => {
+    // TODO: Properly handle error catching (for exec errors) here.
+    // TODO: Implement syntax error handling (error output from bsb).
+    const embedSnippet = await compileSnippet(node.value.trim());
 
-        // TODO: Make this look prettier, move it in an iframe.
-        const scriptNode = {
-          type: 'html',
-          value: "<script type='text/javascript'>\n" +
-            embedSnippet + "\n" +
-            "</script>\n",
-        };
+    // TODO: Make this look prettier, move it in an iframe.
+    const scriptNode = {
+      type: 'html',
+      value: "<script type='text/javascript'>\n" +
+        embedSnippet + "\n" +
+        "</script>\n",
+    };
 
-        // Insert the rendered embed HTML as sibling right before the code snippet.
-        parent.children.splice(index, 0, scriptNode);
-
-        // TODO: This only compiles one snippet because it's inside of the
-        //  callback from Weblate. Instead that callback should be a nice async/
-        //  await function that can be run sequentially before resolving the
-        //  main promise.
-        resolve(markdownAST);
-      });
-    });
+    // Insert the rendered embed HTML as sibling right before the code snippet.
+    parent.children.splice(index, 0, scriptNode);
   });
+
+  // We use Promise.all to execute all transforms in series. The module calling
+  // this plugin expects to receive the transformed markdownAST so we return it
+  // as final promise.
+  return Promise.all(tasks).then(() => markdownAST);
 };
