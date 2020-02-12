@@ -69,8 +69,8 @@ async function removeDirectoryRecursive(dir) {
 
   if (fsSync.existsSync(dir)) {
     const files = await fs.readdir(dir);
-    // Use map to loop through them all and turn them into promises.
-    const ops = files.map(async (file, index) => {
+
+    for (const file of files) {
       const curPath = path.join(dir, file);
       if ((await fs.lstat(curPath)).isDirectory()) {
         await removeDirectoryRecursive(curPath);
@@ -78,11 +78,8 @@ async function removeDirectoryRecursive(dir) {
       else {
         await fs.unlink(curPath);
       }
-      return Promise.resolve();
-    });
+    }
 
-    // Await till all files are recursively removed.
-    await Promise.all(ops);
     await fs.rmdir(dir);
   }
 }
@@ -99,7 +96,7 @@ async function execPromise(command, options) {
   })
 }
 
-async function compilerRunPromise() {
+function compilerRunPromise() {
   return new Promise((resolve, reject) => {
     compiler.run((error, stats) => {
       if (error) {
@@ -112,10 +109,6 @@ async function compilerRunPromise() {
 }
 
 async function compileSnippet(snippet, cb) {
-  // Clean up previous attempt.
-  // TODO: This should happen at the end but is here for debugging.
-  await removeDirectoryRecursive(tmpPath);
-
   // Prepare our reason code compilation directory.
   ensureDirectory(tmpPath);
   await fs.writeFile(bsFile, bsConfig);
@@ -143,14 +136,16 @@ async function compileSnippet(snippet, cb) {
     console.warn("Errors webpacking the compiled code\n", info.warnings);
   }
 
-  const fileContents = await fs.readFile(
-    path.join(tmpPath, webpackOutFile)
-  );
+  const fileContents = await fs.readFile(path.join(tmpPath, webpackOutFile));
+
+  // Clean up.
+  await removeDirectoryRecursive(tmpPath);
+
   return fileContents.toString('utf-8');
 
 }
 
-module.exports = ({markdownAST}, pluginOptions) => {
+module.exports = async ({markdownAST}, pluginOptions) => {
   let codeblocks = [];
 
   // Plugins can be asynchronous but visit itself is synchronous.
@@ -165,8 +160,9 @@ module.exports = ({markdownAST}, pluginOptions) => {
     codeblocks.push({node, index, parent});
   });
 
-  // Create a chain of transforms to handle each node.
-  const tasks = codeblocks.map(async ({ node, index, parent }) => {
+  // Loop over the found nodes and transform their parent elements which are
+  // members of markdownAST.
+  for (const { node, index, parent } of codeblocks) {
     // TODO: Properly handle error catching (for exec errors) here.
     // TODO: Implement syntax error handling (error output from bsb).
     const embedSnippet = await compileSnippet(node.value.trim());
@@ -181,10 +177,10 @@ module.exports = ({markdownAST}, pluginOptions) => {
 
     // Insert the rendered embed HTML as sibling right before the code snippet.
     parent.children.splice(index, 0, scriptNode);
-  });
+  }
 
   // We use Promise.all to execute all transforms in series. The module calling
   // this plugin expects to receive the transformed markdownAST so we return it
   // as final promise.
-  return Promise.all(tasks).then(() => markdownAST);
+  return markdownAST;
 };
