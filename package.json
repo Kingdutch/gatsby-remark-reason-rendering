@@ -7,6 +7,10 @@
   "author": "Alexander Varwijk <npm@alexandervarwijk.com>",
   "license": "UNLICENSED",
   "private": true,
+  "scripts": {
+    "test": "jest",
+    "format": "prettier"
+  },
   "dependencies": {
     "bs-platform": "^7",
     "unist-util-visit": "^2.0.1",
@@ -14,5 +18,11 @@
   },
   "engines": {
     "node": ">=10"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "remark": "^11.0.2",
+    "remark-parse": "^7.0.2"
   }
 }

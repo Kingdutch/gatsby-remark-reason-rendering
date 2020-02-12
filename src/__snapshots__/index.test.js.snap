@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`remark hasn't changed its AST 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "lang": null,
+      "meta": null,
+      "position": Position {
+        "end": Object {
+          "column": 8,
+          "line": 6,
+          "offset": 64,
+        },
+        "indent": Array [
+          1,
+          1,
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 2,
+          "offset": 1,
+        },
+      },
+      "type": "code",
+      "value": "This is some text.
+
+\`\`\`reason
+Code text
+\`\`\`",
+    },
+  ],
+  "position": Object {
+    "end": Object {
+      "column": 3,
+      "line": 7,
+      "offset": 67,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "type": "root",
+}
+`;
