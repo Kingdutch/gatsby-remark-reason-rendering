@@ -142,8 +142,6 @@ module.exports = ({markdownAST}, pluginOptions) => {
       // Create a script node the will run our snippet.
       compileSnippet(node.value.trim(), embedSnippet => {
 
-        console.log(embedSnippet);
-
         // TODO: Make this look prettier, move it in an iframe.
         const scriptNode = {
           type: 'html',
