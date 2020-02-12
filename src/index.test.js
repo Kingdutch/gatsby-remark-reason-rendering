@@ -18,13 +18,9 @@ test("remark hasn't changed its AST", () => {
   expect(ast).toMatchSnapshot();
 });
 
-test("it properly transforms a single reason snippet", () => {
+test("it properly transforms a single reason snippet", async () => {
   const markdownAST = require('./__fixtures__/reason-single-snippet-ast');
 
-  return plugin(
-    { markdownAST },
-    {}
-  ).then(transformedAst => {
-    expect(transformedAst).toMatchSnapshot();
-  });
+  const transformedAst = await plugin({ markdownAST }, {});
+  expect(transformedAst).toMatchSnapshot();
 });
