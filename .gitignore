@@ -1,0 +1,5 @@
+# Ignore build folder
+tmp/
+
+# Ignore node modules
+node_modules/

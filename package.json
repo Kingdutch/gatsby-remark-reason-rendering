@@ -1,0 +1,15 @@
+{
+  "name": "@kingdutch/gatsby-remark-reason-rendering",
+  "version": "0.1.0",
+  "description": "Turns Reason code snippets into rendered pages.",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "author": "Alexander Varwijk <npm@alexandervarwijk.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "bs-platform": "^7.1.0",
+    "unist-util-visit": "^2.0.1",
+    "webpack": "^4.41.6"
+  }
+}
