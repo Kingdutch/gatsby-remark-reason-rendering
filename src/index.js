@@ -42,6 +42,7 @@ const bsConfig = JSON.stringify({
 
 const webpackConfig = {
   mode: 'development',
+  cache: false,
   devtool: false,
   entry: path.join(tmpPath, "embed.js"),
   output: {
