@@ -24,3 +24,10 @@ test("it properly transforms a single reason snippet", async () => {
   const transformedAst = await plugin({ markdownAST }, {});
   expect(transformedAst).toMatchSnapshot();
 });
+
+test("it properly transforms multiple reason snippets", async () => {
+  const markdownAST = require('./__fixtures__/reason-snippet-ast-multiple');
+
+  const transformedAst = await plugin({ markdownAST }, {});
+  expect(transformedAst).toMatchSnapshot();
+});
