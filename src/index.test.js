@@ -4,11 +4,11 @@ const markdown = require('remark-parse');
 
 test("remark hasn't changed its AST", () => {
   const snippet = `
-    This is some text.
-    
-    \`\`\`reason
-    Code text
-    \`\`\`
+This is some text.
+
+\`\`\`reason
+Code text
+\`\`\`
   `;
 
   const ast = remark()

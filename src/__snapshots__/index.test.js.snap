@@ -1071,39 +1071,68 @@ exports[`remark hasn't changed its AST 1`] = `
 Object {
   "children": Array [
     Object {
-      "lang": null,
-      "meta": null,
+      "children": Array [
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 19,
+              "line": 2,
+              "offset": 19,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 2,
+              "offset": 1,
+            },
+          },
+          "type": "text",
+          "value": "This is some text.",
+        },
+      ],
       "position": Position {
         "end": Object {
-          "column": 8,
-          "line": 6,
-          "offset": 64,
+          "column": 19,
+          "line": 2,
+          "offset": 19,
         },
-        "indent": Array [
-          1,
-          1,
-          1,
-          1,
-        ],
+        "indent": Array [],
         "start": Object {
           "column": 1,
           "line": 2,
           "offset": 1,
         },
       },
+      "type": "paragraph",
+    },
+    Object {
+      "lang": "reason",
+      "meta": null,
+      "position": Position {
+        "end": Object {
+          "column": 4,
+          "line": 6,
+          "offset": 44,
+        },
+        "indent": Array [
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 4,
+          "offset": 21,
+        },
+      },
       "type": "code",
-      "value": "This is some text.
-
-\`\`\`reason
-Code text
-\`\`\`",
+      "value": "Code text",
     },
   ],
   "position": Object {
     "end": Object {
       "column": 3,
       "line": 7,
-      "offset": 67,
+      "offset": 47,
     },
     "start": Object {
       "column": 1,
