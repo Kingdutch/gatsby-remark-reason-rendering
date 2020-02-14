@@ -1,11 +1,12 @@
 const fs = require('fs').promises;
-const fsSync = require('fs');
 const path = require('path');
-const { exec } = require('child_process');
 const visit = require('unist-util-visit');
 const webpack = require('webpack');
 
 const annotationParser = require('./annotation-parser');
+const ensureDirectory = require('./fs/ensureDirectory');
+const removeDirectoryRecursive = require('./fs/removeDirectoryRecursive');
+const execPromise = require('./exec-promise');
 
 const projectDir = path.dirname(__dirname);
 const embedFile = path.join(projectDir, "static", "embed.js");
@@ -29,7 +30,6 @@ const bsConfig = {
   "package-specs": [
     {
       "module": "es6",
-      // "module": "commonjs",
       "in-source": true
     }
   ],
@@ -58,53 +58,6 @@ const webpackConfig = {
 };
 
 const compiler = webpack(webpackConfig);
-
-function ensureDirectory(dir) {
-  if (!fsSync.existsSync(dir)) {
-    fsSync.mkdirSync(dir);
-  }
-}
-
-async function removeDirectoryRecursive(dir) {
-  if (path.relative(projectDir, dir).indexOf('..') === 0) {
-    throw new Error(`${dir} is outside of project directory ${projectDir}`);
-  }
-
-  if (fsSync.existsSync(dir)) {
-    const files = await fs.readdir(dir);
-
-    for (const file of files) {
-      const curPath = path.join(dir, file);
-      if ((await fs.lstat(curPath)).isDirectory()) {
-        await removeDirectoryRecursive(curPath);
-      }
-      else {
-        await fs.unlink(curPath);
-      }
-    }
-
-    await fs.rmdir(dir);
-  }
-}
-
-async function execPromise(command, options) {
-  return new Promise((resolve, reject) => {
-    exec(command, options, (error, stdout, stderr) => {
-      if (error) {
-        console.error(error);
-        if (stdout) {
-          console.log(stdout);
-        }
-        if (stderr) {
-          console.error(stderr);
-        }
-        return reject(error);
-      }
-
-      resolve(stdout, stderr);
-    })
-  })
-}
 
 function compilerRunPromise() {
   return new Promise((resolve, reject) => {
