@@ -1,0 +1,9 @@
+{
+  "name": "@kingdutch/gatsby-remark-reason-rendering-test",
+  "version": "1.0.0",
+  "description": "Test reason package for gatsby-remark-reason-rendering",
+  "type": "commonjs",
+  "author": "Alexander Varwijk <npm@alexandervarwijk.com>",
+  "license": "UNLICENSED",
+  "private": true
+}
