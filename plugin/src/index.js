@@ -162,8 +162,12 @@ module.exports = async ({markdownAST}, pluginOptions) => {
   // Therefore first collect all the code nodes, later return a promise in which
   // they are processed.
   visit(markdownAST, 'code', (node, index, parent) => {
+    // Skip non-reason code snippets.
+    if (node.lang !== 'reason') {
+      return;
+    }
+
     // Skip empty codeblocks.
-    // TODO: Skip non-reason codeblocks.
     if (!node.value.trim().length) {
       return;
     }

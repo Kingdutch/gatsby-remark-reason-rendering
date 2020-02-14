@@ -38,3 +38,14 @@ test("it allows declaring dependencies", async () => {
   const transformedAst = await plugin({ markdownAST }, {});
   expect(transformedAst).toMatchSnapshot();
 });
+
+test('it only processes reason snippets', async () => {
+  const markdownAST = require('./__fixtures__/mixed-snippet-ast');
+
+  const transformedAst = await plugin({ markdownAST }, {});
+  const codeCount = transformedAst.children.filter(node => node.type === 'code').length;
+  const htmlCount = transformedAst.children.filter(node => node.type === 'html').length;
+
+  expect(codeCount).toBe(3);
+  expect(htmlCount).toBe(1);
+});
