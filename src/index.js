@@ -5,6 +5,8 @@ const { exec } = require('child_process');
 const visit = require('unist-util-visit');
 const webpack = require('webpack');
 
+const annotationParser = require('./annotation-parser');
+
 const projectDir = path.dirname(__dirname);
 const embedFile = path.join(projectDir, "static", "embed.js");
 const tmpPath = path.join(projectDir, 'tmp');
@@ -12,7 +14,7 @@ const bsFile = path.join(tmpPath, 'bsconfig.json');
 const tmpFile = path.join(tmpPath, 'Snippet.re');
 const webpackOutFile = 'compiled.js';
 
-const bsConfig = JSON.stringify({
+const bsConfig = {
   "name": "tmp",
   "reason": {
     "react-jsx": 3
@@ -38,7 +40,7 @@ const bsConfig = JSON.stringify({
   ],
   "ppx-flags": [],
   "refmt": 3
-}, null, 2);
+};
 
 const webpackConfig = {
   mode: 'development',
@@ -89,6 +91,13 @@ async function execPromise(command, options) {
   return new Promise((resolve, reject) => {
     exec(command, options, (error, stdout, stderr) => {
       if (error) {
+        console.error(error);
+        if (stdout) {
+          console.log(stdout);
+        }
+        if (stderr) {
+          console.error(stderr);
+        }
         return reject(error);
       }
 
@@ -109,10 +118,10 @@ function compilerRunPromise() {
   })
 }
 
-async function compileSnippet(snippet, cb) {
+async function compileSnippet(snippet, bsConfig) {
   // Prepare our reason code compilation directory.
   ensureDirectory(tmpPath);
-  await fs.writeFile(bsFile, bsConfig);
+  await fs.writeFile(bsFile, JSON.stringify(bsConfig, null, 2));
   await fs.writeFile(tmpFile, snippet);
 
   // Use BSB to compile the code.
@@ -164,9 +173,21 @@ module.exports = async ({markdownAST}, pluginOptions) => {
   // Loop over the found nodes and transform their parent elements which are
   // members of markdownAST.
   for (const { node, index, parent } of codeblocks) {
+    const snippet = node.value.trim();
+
+    // Find any annotations used to configure our compilation.
+    const annotations = annotationParser(snippet);
+    // Create a copy of the config that we can modify.
+    let config = { ...bsConfig };
+
+    // Add any specified dependencies.
+    if (annotations['dependency']) {
+      config["bs-dependencies"] = [...config["bs-dependencies"], ...annotations['dependency']];
+    }
+
     // TODO: Properly handle error catching (for exec errors) here.
     // TODO: Implement syntax error handling (error output from bsb).
-    const embedSnippet = await compileSnippet(node.value.trim());
+    const embedSnippet = await compileSnippet(snippet, config);
 
     // TODO: Make this look prettier, move it in an iframe.
     const scriptNode = {

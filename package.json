@@ -20,6 +20,7 @@
     "node": ">=10"
   },
   "devDependencies": {
+    "@kingdutch/gatsby-remark-reason-rendering-test": "^1",
     "jest": "^25.1.0",
     "prettier": "^1.19.1",
     "reason-react": "^0.7.0",

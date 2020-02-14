@@ -19,7 +19,7 @@ test("remark hasn't changed its AST", () => {
 });
 
 test("it properly transforms a single reason snippet", async () => {
-  const markdownAST = require('./__fixtures__/reason-single-snippet-ast');
+  const markdownAST = require('./__fixtures__/reason-snippet-ast-single');
 
   const transformedAst = await plugin({ markdownAST }, {});
   expect(transformedAst).toMatchSnapshot();
@@ -27,6 +27,13 @@ test("it properly transforms a single reason snippet", async () => {
 
 test("it properly transforms multiple reason snippets", async () => {
   const markdownAST = require('./__fixtures__/reason-snippet-ast-multiple');
+
+  const transformedAst = await plugin({ markdownAST }, {});
+  expect(transformedAst).toMatchSnapshot();
+});
+
+test("it allows declaring dependencies", async () => {
+  const markdownAST = require('./__fixtures__/reason-snippet-ast-dependency');
 
   const transformedAst = await plugin({ markdownAST }, {});
   expect(transformedAst).toMatchSnapshot();

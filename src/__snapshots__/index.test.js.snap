@@ -1,5 +1,282 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`it allows declaring dependencies 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 13,
+              "line": 2,
+              "offset": 13,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 2,
+              "offset": 1,
+            },
+          },
+          "type": "text",
+          "value": "Hello World!",
+        },
+      ],
+      "position": Object {
+        "end": Object {
+          "column": 13,
+          "line": 2,
+          "offset": 13,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 2,
+          "offset": 1,
+        },
+      },
+      "type": "paragraph",
+    },
+    Object {
+      "type": "html",
+      "value": "<script type='text/javascript'>
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = \\"\\";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = \\"./tmp/embed.js\\");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ \\"../gatsby-remark-reason-rendering-test/src/Console.bs.js\\":
+/*!********************************!*\\\\
+  !*** .-test/src/Console.bs.js ***!
+  \\\\********************************/
+/*! exports provided: log */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"log\\", function() { return log; });
+// Generated by BUCKLESCRIPT, PLEASE EDIT WITH CARE
+
+
+function log(str) {
+  console.log(str);
+  return /* () */0;
+}
+
+
+/* No side effect */
+
+
+/***/ }),
+
+/***/ \\"./tmp/embed.js\\":
+/*!**********************!*\\\\
+  !*** ./tmp/embed.js ***!
+  \\\\**********************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \\"react\\");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \\"react-dom\\");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _snippet_bs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./snippet.bs */ \\"./tmp/snippet.bs.js\\");
+
+
+
+
+const el = document.createElement(\\"div\\");
+
+// TODO: Find a way to find the current script in IE 11.
+const script = document.currentScript;
+script.parentNode.insertBefore(el, script);
+
+react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_snippet_bs__WEBPACK_IMPORTED_MODULE_2__[\\"make\\"]), el);
+
+
+/***/ }),
+
+/***/ \\"./tmp/snippet.bs.js\\":
+/*!***************************!*\\\\
+  !*** ./tmp/snippet.bs.js ***!
+  \\\\***************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _kingdutch_gatsby_remark_reason_rendering_test_src_Console_bs_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kingdutch/gatsby-remark-reason-rendering-test/src/Console.bs.js */ \\"../gatsby-remark-reason-rendering-test/src/Console.bs.js\\");
+// Generated by BUCKLESCRIPT, PLEASE EDIT WITH CARE
+
+
+
+_kingdutch_gatsby_remark_reason_rendering_test_src_Console_bs_js__WEBPACK_IMPORTED_MODULE_0__[\\"log\\"](\\"Hello World\\");
+
+
+/*  Not a pure module */
+
+
+/***/ }),
+
+/***/ \\"react\\":
+/*!************************!*\\\\
+  !*** external \\"React\\" ***!
+  \\\\************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = React;
+
+/***/ }),
+
+/***/ \\"react-dom\\":
+/*!***************************!*\\\\
+  !*** external \\"ReactDOM\\" ***!
+  \\\\***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ReactDOM;
+
+/***/ })
+
+/******/ });
+</script>
+",
+    },
+    Object {
+      "lang": "reason",
+      "meta": null,
+      "position": Object {
+        "end": Object {
+          "column": 4,
+          "line": 10,
+          "offset": 127,
+        },
+        "indent": Array [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 4,
+          "offset": 15,
+        },
+      },
+      "type": "code",
+      "value": "/**
+ * @dependency @kingdutch/gatsby-remark-reason-rendering-test
+ */
+
+Console.log(\\"Hello World\\");",
+    },
+  ],
+  "position": Object {
+    "end": Object {
+      "column": 3,
+      "line": 11,
+      "offset": 130,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "type": "root",
+}
+`;
+
 exports[`it properly transforms a single reason snippet 1`] = `
 Object {
   "children": Array [
