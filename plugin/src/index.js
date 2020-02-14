@@ -105,10 +105,17 @@ async function compileSnippet(snippet, bsConfig) {
   await removeDirectoryRecursive(tmpPath);
 
   return fileContents.toString('utf-8');
-
 }
 
-module.exports = async ({markdownAST}, pluginOptions) => {
+/**
+ * Filters out the reason code snippet nodes from a markdown AST.
+ *
+ * @param markdownAST
+ *   The AST of the markdown document.
+ * @return {[{node, index, parent}...]}
+ *   An array with entries of the found node, its index and its parent node.
+ */
+function filterReasonSnippets(markdownAST) {
   let codeblocks = [];
 
   // Plugins can be asynchronous but visit itself is synchronous.
@@ -126,6 +133,22 @@ module.exports = async ({markdownAST}, pluginOptions) => {
     }
     codeblocks.push({node, index, parent});
   });
+
+  return codeblocks;
+}
+
+/**
+ * Adds executable scripts above Reason code snippets in markdown files.
+ *
+ * @param markdownAST
+ *   The AST of the markdown document.
+ * @param pluginOptions
+ *   The options for this plugin.
+ * @return {Promise<*>}
+ *   A promise that resolves to the modified AST of the markdown document.
+ */
+module.exports = async ({markdownAST}, pluginOptions) => {
+  const codeblocks = filterReasonSnippets(markdownAST);
 
   // Loop over the found nodes and transform their parent elements which are
   // members of markdownAST.
