@@ -162,22 +162,8 @@ function log(str) {
 
 \\"use strict\\";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \\"react\\");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \\"react-dom\\");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _snippet_bs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./snippet.bs */ \\"./tmp/snippet.bs.js\\");
+/* harmony import */ var _snippet_bs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./snippet.bs */ \\"./tmp/snippet.bs.js\\");
 
-
-
-
-const el = document.createElement(\\"div\\");
-
-// TODO: Find a way to find the current script in IE 11.
-const script = document.currentScript;
-script.parentNode.insertBefore(el, script);
-
-react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_snippet_bs__WEBPACK_IMPORTED_MODULE_2__[\\"make\\"]), el);
 
 
 /***/ }),
@@ -201,28 +187,6 @@ _kingdutch_gatsby_remark_reason_rendering_test_src_Console_bs_js__WEBPACK_IMPORT
 
 /*  Not a pure module */
 
-
-/***/ }),
-
-/***/ \\"react\\":
-/*!************************!*\\\\
-  !*** external \\"React\\" ***!
-  \\\\************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = React;
-
-/***/ }),
-
-/***/ \\"react-dom\\":
-/*!***************************!*\\\\
-  !*** external \\"ReactDOM\\" ***!
-  \\\\***************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ReactDOM;
 
 /***/ })
 

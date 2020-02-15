@@ -8,6 +8,7 @@ const ensureDirectory = require('./fs/ensureDirectory');
 const removeDirectoryRecursive = require('./fs/removeDirectoryRecursive');
 const filterReasonSnippets = require('./markdown/filterReasonSnippets');
 const { getEmbedSnippet, SNIPPET_PLACEHOLDER } = require('./fs/getEmbedSnippet');
+const { getPrelude } = require('./fs/getPrelude');
 
 const projectDir = path.dirname(__dirname);
 const embedFile = path.join(projectDir, "static", "prelude", "react-component.js");
@@ -16,6 +17,13 @@ const bsFile = path.join(tmpPath, 'bsconfig.json');
 const tmpFile = path.join(tmpPath, 'Snippet.re');
 const webpackOutFile = 'compiled.js';
 
+const FALLBACK_PRELUDE = 'react-component';
+const defaultPreludes = {
+  'none': path.join(projectDir, "static", "prelude", "none.js"),
+  'react-component': path.join(projectDir, "static", "prelude", "react-component.js"),
+};
+
+const FALLBACK_EMBED = 'inline-script';
 const defaultEmbedStyles = {
   'inline-script': path.join(projectDir, "static", "embed", "inline-script.html"),
 };
@@ -76,7 +84,9 @@ function compilerRunPromise() {
   })
 }
 
-async function compileSnippet(snippet, bsConfig) {
+async function compileSnippet(snippet, options) {
+  const { bsConfig, prelude } = options;
+
   // Prepare our reason code compilation directory.
   ensureDirectory(tmpPath);
   await fs.writeFile(bsFile, JSON.stringify(bsConfig, null, 2));
@@ -88,7 +98,7 @@ async function compileSnippet(snippet, bsConfig) {
   // Prepare our embed snippet that will load the compiled Reason code.
   await fs.writeFile(
     path.join(tmpPath, "embed.js"),
-    await fs.readFile(embedFile)
+    prelude
   );
 
   // TODO: Allow configuring of how the code is embedded.
@@ -156,18 +166,29 @@ module.exports = async ({markdownAST}, pluginOptions) => {
     // Find any annotations used to configure our compilation.
     const annotations = annotationParser(snippet);
 
-    let embedStyle = 'inline-script';
     // Allow users to control the display style by changing the html code.
+    let embedStyle = FALLBACK_EMBED;
     if (annotations['style']) {
       embedStyle = annotations['style'][0];
     }
 
     const embedStyleCode = await getEmbedSnippet(embedStyle, {/* TODO: Pass plugin option */ }, defaultEmbedStyles);
 
+    // Allow users to control the prelude of the snippet.
+    let prelude = FALLBACK_PRELUDE;
+    if (annotations['prelude']) {
+      prelude = annotations['prelude'][0];
+    }
+
     // TODO: Properly handle error catching (for exec errors) here.
     // TODO: Implement syntax error handling (error output from bsb).
-    const config = createBsConfig(defaultBSConfig, annotations);
-    const embedSnippet = await compileSnippet(snippet, config);
+    const embedSnippet = await compileSnippet(
+      snippet,
+      {
+        bsConfig: createBsConfig(defaultBSConfig, annotations),
+        prelude: await getPrelude(prelude, {/* TODO: Pass plugin options here */}, defaultPreludes),
+      }
+    );
 
     const scriptNode = {
       type: 'html',
