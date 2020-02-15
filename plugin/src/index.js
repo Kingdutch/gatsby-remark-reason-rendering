@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const fsSync = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -8,12 +9,18 @@ const ensureDirectory = require('./fs/ensureDirectory');
 const removeDirectoryRecursive = require('./fs/removeDirectoryRecursive');
 const filterReasonSnippets = require('./markdown/filterReasonSnippets');
 
+const SNIPPET_PLACEHOLDER = '%SNIPPET%';
+
 const projectDir = path.dirname(__dirname);
-const embedFile = path.join(projectDir, "static", "prelude/react-component.js");
+const embedFile = path.join(projectDir, "static", "prelude", "react-component.js");
 const tmpPath = path.join(projectDir, 'tmp');
 const bsFile = path.join(tmpPath, 'bsconfig.json');
 const tmpFile = path.join(tmpPath, 'Snippet.re');
 const webpackOutFile = 'compiled.js';
+
+const embedFilePaths = {
+  'inline-script': path.join(projectDir, "static", "embed", "inline-script.html"),
+};
 
 const bsConfig = {
   "name": "tmp",
@@ -140,12 +147,32 @@ module.exports = async ({markdownAST}, pluginOptions) => {
     // TODO: Implement syntax error handling (error output from bsb).
     const embedSnippet = await compileSnippet(snippet, config);
 
-    // TODO: Make this look prettier, move it in an iframe.
+    // TODO: Move style checking before compilation because it doesn't require compilation.
+    let embedStyle = 'inline-script';
+    // Allow users to control the display style by changing the html code.
+    if (annotations['style']) {
+      embedStyle = annotations['style'][0];
+    }
+
+    // TODO: Also lookup the path of the embed code from plugin options.
+    const embedStylePath = embedFilePaths[embedStyle];
+    if (!embedStylePath) {
+      throw new Error(`Could not embed snippet in style ${embedStyle}: style not defined`);
+    }
+
+    if (!fsSync.existsSync(embedStylePath)) {
+      throw new Error(`Could not embed snippet in style ${embedStyle}: ${embedStylePath} not found`);
+    }
+
+    const embedStyleCode = (await fs.readFile(embedStylePath)).toString('utf-8');
+
+    if (embedStyleCode.indexOf(SNIPPET_PLACEHOLDER) === -1) {
+      throw new Error(`Could not find snippet placeholder (${SNIPPET_PLACEHOLDER}) in style ${embedStyle}`);
+    }
+
     const scriptNode = {
       type: 'html',
-      value: "<script type='text/javascript'>\n" +
-        embedSnippet + "\n" +
-        "</script>\n",
+      value: embedStyleCode.replace(SNIPPET_PLACEHOLDER, embedSnippet)
     };
 
     // Insert the rendered embed HTML as sibling right before the code snippet.
