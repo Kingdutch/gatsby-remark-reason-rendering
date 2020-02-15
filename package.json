@@ -4,8 +4,12 @@
   "description": "Turns Reason code snippets into rendered pages.",
   "main": "src/index.js",
   "type": "commonjs",
-  "author": "Alexander Varwijk <npm@alexandervarwijk.com>",
+  "author": "Alexander Varwijk <npm@alexandervarwijk.com> (https://www.alexandervarwijk.com)",
   "license": "MIT",
+  "repository": "github:Kingdutch/gatsby-remark-reason-rendering",
+  "bugs": {
+    "url": "https://github.com/Kingdutch/gatsby-remark-reason-rendering/issues"
+  },
   "scripts": {
     "test": "jest --runInBand",
     "format": "prettier"
@@ -25,5 +29,14 @@
     "reason-react": "^0.7.0",
     "remark": "^11.0.2",
     "remark-parse": "^7.0.2"
-  }
+  },
+  "keywords": [
+    "gatsby",
+    "remark",
+    "bucklescript",
+    "markdown",
+    "bsb",
+    "reason",
+    "reasonml"
+  ]
 }
