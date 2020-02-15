@@ -40,7 +40,7 @@
       "type": "code",
       "lang": "reason",
       "meta": null,
-      "value": "/**\n * @dependency @kingdutch/gatsby-remark-reason-rendering-test\n */\n\nConsole.log(\"Hello World\");",
+      "value": "/**\n * @prelude none\n * @dependency @kingdutch/gatsby-remark-reason-rendering-test\n */\n\nConsole.log(\"Hello World\");",
       "position": {
         "start": {
           "line": 4,
@@ -48,11 +48,12 @@
           "offset": 15
         },
         "end": {
-          "line": 10,
+          "line": 11,
           "column": 4,
           "offset": 127
         },
         "indent": [
+          1,
           1,
           1,
           1,
@@ -70,7 +71,7 @@
       "offset": 0
     },
     "end": {
-      "line": 11,
+      "line": 12,
       "column": 3,
       "offset": 130
     }

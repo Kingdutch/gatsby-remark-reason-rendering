@@ -236,10 +236,11 @@ module.exports = ReactDOM;
       "position": Object {
         "end": Object {
           "column": 4,
-          "line": 10,
+          "line": 11,
           "offset": 127,
         },
         "indent": Array [
+          1,
           1,
           1,
           1,
@@ -255,6 +256,7 @@ module.exports = ReactDOM;
       },
       "type": "code",
       "value": "/**
+ * @prelude none
  * @dependency @kingdutch/gatsby-remark-reason-rendering-test
  */
 
@@ -264,7 +266,7 @@ Console.log(\\"Hello World\\");",
   "position": Object {
     "end": Object {
       "column": 3,
-      "line": 11,
+      "line": 12,
       "offset": 130,
     },
     "start": Object {
