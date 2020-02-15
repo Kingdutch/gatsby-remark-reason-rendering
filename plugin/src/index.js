@@ -1,12 +1,12 @@
 const fs = require('fs').promises;
 const path = require('path');
-const visit = require('unist-util-visit');
 const webpack = require('webpack');
 
 const annotationParser = require('./annotation-parser');
+const execPromise = require('./exec-promise');
 const ensureDirectory = require('./fs/ensureDirectory');
 const removeDirectoryRecursive = require('./fs/removeDirectoryRecursive');
-const execPromise = require('./exec-promise');
+const filterReasonSnippets = require('./markdown/filterReasonSnippets');
 
 const projectDir = path.dirname(__dirname);
 const embedFile = path.join(projectDir, "static", "prelude/react-component.js");
@@ -106,36 +106,6 @@ async function compileSnippet(snippet, bsConfig) {
   await removeDirectoryRecursive(tmpPath);
 
   return fileContents.toString('utf-8');
-}
-
-/**
- * Filters out the reason code snippet nodes from a markdown AST.
- *
- * @param markdownAST
- *   The AST of the markdown document.
- * @return {[{node, index, parent}...]}
- *   An array with entries of the found node, its index and its parent node.
- */
-function filterReasonSnippets(markdownAST) {
-  let codeblocks = [];
-
-  // Plugins can be asynchronous but visit itself is synchronous.
-  // Therefore first collect all the code nodes, later return a promise in which
-  // they are processed.
-  visit(markdownAST, 'code', (node, index, parent) => {
-    // Skip non-reason code snippets.
-    if (node.lang !== 'reason') {
-      return;
-    }
-
-    // Skip empty codeblocks.
-    if (!node.value.trim().length) {
-      return;
-    }
-    codeblocks.push({node, index, parent});
-  });
-
-  return codeblocks;
 }
 
 /**
