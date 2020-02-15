@@ -11,6 +11,10 @@
     "test": "jest --runInBand",
     "format": "prettier"
   },
+  "files": [
+    "/src",
+    "/static"
+  ],
   "dependencies": {
     "bs-platform": "^7",
     "unist-util-visit": "^2.0.1",
