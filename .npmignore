@@ -1,3 +1,6 @@
+# Ignore editor files
+.idea/
+
 # Ignore test files
 __fixtures__
 __snapshots__
