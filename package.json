@@ -5,8 +5,7 @@
   "main": "src/index.js",
   "type": "commonjs",
   "author": "Alexander Varwijk <npm@alexandervarwijk.com>",
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "test": "jest --runInBand",
     "format": "prettier"
