@@ -9,7 +9,7 @@ const removeDirectoryRecursive = require('./fs/removeDirectoryRecursive');
 const execPromise = require('./exec-promise');
 
 const projectDir = path.dirname(__dirname);
-const embedFile = path.join(projectDir, "static", "embed.js");
+const embedFile = path.join(projectDir, "static", "prelude/react-component.js");
 const tmpPath = path.join(projectDir, 'tmp');
 const bsFile = path.join(tmpPath, 'bsconfig.json');
 const tmpFile = path.join(tmpPath, 'Snippet.re');
@@ -86,6 +86,7 @@ async function compileSnippet(snippet, bsConfig) {
     await fs.readFile(embedFile)
   );
 
+  // TODO: Allow configuring of how the code is embedded.
   // Use webpack to make our snippet ready for embedding.
   const stats = await compilerRunPromise();
 
