@@ -1,4 +1,7 @@
 # Ignore test files
-__fixtures__/
-__snapshots__/
+__fixtures__
+__snapshots__
 *.test.js
+
+# Ignore test dependency
+test/
