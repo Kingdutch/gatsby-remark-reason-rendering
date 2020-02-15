@@ -24,6 +24,16 @@ Add the plugin to your `gatsby-config.js` as `gatsby-transformer-remark` plugin.
 }
 ```
 
+Install a compatible version of `bs-platform`. This is required to allow the use 
+of Reason in the Gatsby project. bs-platform requires the same version to be 
+used throughout a project.
+```shell script
+# yarn
+yarn add bs-platform@^7
+# npm
+npm install --save bs-platform@^7
+```
+
 ## Annotations
 The behaviour of the code snippet compilation and embedding can be controlled by 
 adding annotations to docblocks in the snippet.

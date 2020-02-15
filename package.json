@@ -15,9 +15,11 @@
     "format": "prettier"
   },
   "dependencies": {
-    "bs-platform": "^7",
     "unist-util-visit": "^2.0.1",
     "webpack": "^4"
+  },
+  "peerDependencies": {
+    "bs-platform": "^7"
   },
   "engines": {
     "node": ">=10"
