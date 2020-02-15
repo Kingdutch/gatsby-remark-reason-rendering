@@ -1,5 +1,5 @@
 {
-  "name": "@kingdutch/gatsby-remark-reason-rendering-test",
+  "name": "gatsby-remark-reason-rendering-test",
   "version": "1.0.0",
   "description": "Test reason package for gatsby-remark-reason-rendering",
   "type": "commonjs",

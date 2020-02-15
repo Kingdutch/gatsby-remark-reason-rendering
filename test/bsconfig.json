@@ -1,5 +1,5 @@
 {
-  "name": "@kingdutch/gatsby-remark-reason-rendering-test",
+  "name": "gatsby-remark-reason-rendering-test",
   "reason": {
     "react-jsx": 3
   },

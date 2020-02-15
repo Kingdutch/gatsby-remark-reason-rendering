@@ -40,7 +40,7 @@
       "type": "code",
       "lang": "reason",
       "meta": null,
-      "value": "/**\n * @prelude none\n * @dependency @kingdutch/gatsby-remark-reason-rendering-test\n */\n\nConsole.log(\"Hello World\");",
+      "value": "/**\n * @prelude none\n * @dependency gatsby-remark-reason-rendering-test\n */\n\nConsole.log(\"Hello World\");",
       "position": {
         "start": {
           "line": 4,

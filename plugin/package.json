@@ -1,6 +1,6 @@
 {
-  "name": "@kingdutch/gatsby-remark-reason-rendering",
-  "version": "0.2.0",
+  "name": "gatsby-remark-reason-rendering",
+  "version": "0.3.0",
   "description": "Turns Reason code snippets into rendered pages.",
   "main": "src/index.js",
   "type": "commonjs",
@@ -20,7 +20,7 @@
     "node": ">=10"
   },
   "devDependencies": {
-    "@kingdutch/gatsby-remark-reason-rendering-test": "^1",
+    "gatsby-remark-reason-rendering-test": "^1",
     "jest": "^25.1.0",
     "prettier": "^1.19.1",
     "reason-react": "^0.7.0",

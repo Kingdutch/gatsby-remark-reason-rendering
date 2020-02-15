@@ -2,6 +2,6 @@
   "private": true,
   "workspaces": ["plugin", "test"],
   "scripts": {
-    "test": "yarn workspace @kingdutch/gatsby-remark-reason-rendering test"
+    "test": "yarn workspace gatsby-remark-reason-rendering test"
   }
 }
