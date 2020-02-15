@@ -1,7 +1,34 @@
 {
+  "name": "gatsby-remark-reason-rendering",
+  "version": "0.3.0",
+  "description": "Turns Reason code snippets into rendered pages.",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "author": "Alexander Varwijk <npm@alexandervarwijk.com>",
+  "license": "UNLICENSED",
   "private": true,
-  "workspaces": ["plugin", "test"],
   "scripts": {
-    "test": "yarn workspace gatsby-remark-reason-rendering test"
+    "test": "jest --runInBand",
+    "format": "prettier"
+  },
+  "files": [
+    "/src",
+    "/static"
+  ],
+  "dependencies": {
+    "bs-platform": "^7",
+    "unist-util-visit": "^2.0.1",
+    "webpack": "^4"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "devDependencies": {
+    "gatsby-remark-reason-rendering-test": "file:./test/",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "reason-react": "^0.7.0",
+    "remark": "^11.0.2",
+    "remark-parse": "^7.0.2"
   }
 }
