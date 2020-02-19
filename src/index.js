@@ -11,7 +11,6 @@ const { getEmbedSnippet, SNIPPET_PLACEHOLDER } = require('./fs/getEmbedSnippet')
 const { getPrelude } = require('./fs/getPrelude');
 
 const projectDir = path.dirname(__dirname);
-const embedFile = path.join(projectDir, "static", "prelude", "react-component.js");
 const tmpPath = path.join(projectDir, 'tmp');
 const bsFile = path.join(tmpPath, 'bsconfig.json');
 const tmpFile = path.join(tmpPath, 'Snippet.re');
