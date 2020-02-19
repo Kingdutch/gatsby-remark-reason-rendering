@@ -40,8 +40,8 @@ Object {
     },
     Object {
       "type": "html",
-      "value": "<script type='text/javascript'>
-/******/ (function(modules) { // webpackBootstrap
+      "value": "<script type='text/javascript' class=\\"gatsby-remark-reason-rendering-script\\">
+  /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -283,8 +283,8 @@ Object {
     },
     Object {
       "type": "html",
-      "value": "<script type='text/javascript'>
-/******/ (function(modules) { // webpackBootstrap
+      "value": "<script type='text/javascript' class=\\"gatsby-remark-reason-rendering-script\\">
+  /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -553,8 +553,8 @@ Object {
     },
     Object {
       "type": "html",
-      "value": "<script type='text/javascript'>
-/******/ (function(modules) { // webpackBootstrap
+      "value": "<script type='text/javascript' class=\\"gatsby-remark-reason-rendering-script\\">
+  /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -768,8 +768,8 @@ let make = () => (
     },
     Object {
       "type": "html",
-      "value": "<script type='text/javascript'>
-/******/ (function(modules) { // webpackBootstrap
+      "value": "<script type='text/javascript' class=\\"gatsby-remark-reason-rendering-script\\">
+  /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
