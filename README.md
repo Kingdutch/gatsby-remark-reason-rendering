@@ -1,5 +1,8 @@
 # gatsby-remark-reason-rendering
 
+![npm](https://img.shields.io/npm/v/gatsby-remark-reason-rendering?style=flat-square)
+![npm](https://img.shields.io/npm/dm/gatsby-remark-reason-rendering?color=blue&style=flat-square)
+
 A gatsby-remark plugin that will compile and embed the reason code snippet files 
 in your Markdown files.
 
