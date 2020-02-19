@@ -85,13 +85,7 @@ The plugin itself does not support any configuration.
 ## Known Limitations
 
 ### React/ReactDOM
-This plugin does not add React or ReactDOM to the page but expects the user of 
-the plugin to do this manually. The bundler is configured to treat these 
-dependencies as external globals.
-
-### gatsby develop
-The script tags that this plugin creates are added using `innerHTML` when a site
-is served with hot reloading using `gatsby develop`. When scripts are added in 
-this way, they are not executed by the browser. The scripts will show execute 
-properly when the site is served as a static website. 
- 
+This plugin currently always adds the development build of React/ReactDOM to the 
+page from the unpkgd CDN. This ensures that React snippets work. Work needs to 
+be done to make this configurable and swap to the production build when Gatsby
+is building for deployment.
